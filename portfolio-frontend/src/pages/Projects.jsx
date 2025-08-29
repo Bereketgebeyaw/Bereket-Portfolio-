@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Github, Filter, Code, Globe, Database } from 'lucide-react';
+import { ExternalLink, Github, Code, Globe, Database } from 'lucide-react';
 import './Projects.css';
 
 const Projects = () => {
