@@ -249,28 +249,29 @@
   }
   
   .hero-image {
-    width: 300px;
-    height: 300px;
+    width: 350px;
+    height: 350px;
   }
   
   .floating-card {
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
   }
   
   .floating-card:nth-child(1) {
-    top: 10px;
-    left: 10px;
+    top: 20px;
+    left: 20px;
   }
   
   .floating-card:nth-child(2) {
-    top: 120px;
-    right: 10px;
+    top: 20px;
+    right: 20px;
   }
   
   .floating-card:nth-child(3) {
-    bottom: 10px;
-    left: 120px;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
   }
   
   .skills-grid {
