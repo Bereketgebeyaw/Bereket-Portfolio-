@@ -83,7 +83,8 @@ const About = () => {
                   I'm a passionate developer with expertise in designing and implementing 
                   functional websites and applications. I specialize in company sites, 
                   e-commerce platforms, job boards, asset management systems, and fashion 
-                  design websites using React, Node.js, PostgreSQL, .NET and other modern technologies.
+                  design websites using React, Node.js, PostgreSQL, .NET and other modern technologies. 
+                  I'm also specialized in Web3 technologies and blockchain development using ICP.
                 </p>
                 <div className="profile-actions">
                   <button 
