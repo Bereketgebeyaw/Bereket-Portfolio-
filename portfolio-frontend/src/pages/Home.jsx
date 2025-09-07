@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Code, Palette, Database, Globe } from 'lucide-react';
+import { ArrowRight, Code, Palette, Database, Globe, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import './Home.css';
 
@@ -68,12 +68,12 @@ const Home = () => {
                 <span>Full Stack</span>
               </div>
               <div className="floating-card">
-                <Database size={48} />
-                <span>Web Apps</span>
+                <Zap size={48} />
+                <span>Web3</span>
               </div>
               <div className="floating-card">
-                <Palette size={48} />
-                <span>Solutions</span>
+                <Database size={48} />
+                <span>Web Apps</span>
               </div>
             </div>
           </motion.div>
