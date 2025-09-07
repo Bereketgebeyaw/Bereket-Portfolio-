@@ -9,6 +9,7 @@ const Home = () => {
     { icon: <Code />, title: 'Frontend Development', description: 'React, HTML5, CSS3, JavaScript' },
     { icon: <Palette />, title: 'UI/UX Design', description: 'Figma, Adobe XD, Responsive Design' },
     { icon: <Database />, title: 'Backend Development', description: 'Node.js, .NET, PostgreSQL' },
+    { icon: <Globe />, title: 'Web3 & Blockchain', description: 'ICP, Smart Contracts, Blockchain Development' },
     { icon: <Globe />, title: 'Full Stack Solutions', description: 'E-commerce, Job Boards, Asset Management' }
   ];
 

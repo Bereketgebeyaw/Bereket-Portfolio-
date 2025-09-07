@@ -27,14 +27,23 @@ const skills = [
     ]
   },
   {
+    category: "Blockchain & Web3",
+    skills: [
+      { id: 13, name: "ICP (Internet Computer Protocol)", proficiency: 4 },
+      { id: 14, name: "Web3 Development", proficiency: 4 },
+      { id: 15, name: "Blockchain Development", proficiency: 4 },
+      { id: 16, name: "Smart Contracts", proficiency: 3 }
+    ]
+  },
+  {
     category: "Tools & Platforms",
     skills: [
-      { id: 13, name: "Git", proficiency: 5 },
-      { id: 14, name: "VS Code", proficiency: 5 },
-      { id: 15, name: "Postman", proficiency: 4 },
-      { id: 16, name: "Figma", proficiency: 3 },
-      { id: 17, name: "Adobe XD", proficiency: 3 },
-      { id: 18, name: "Docker", proficiency: 3 }
+      { id: 17, name: "Git", proficiency: 5 },
+      { id: 18, name: "VS Code", proficiency: 5 },
+      { id: 19, name: "Postman", proficiency: 4 },
+      { id: 20, name: "Figma", proficiency: 3 },
+      { id: 21, name: "Adobe XD", proficiency: 3 },
+      { id: 22, name: "Docker", proficiency: 3 }
     ]
   }
 ];

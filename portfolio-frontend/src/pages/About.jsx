@@ -34,6 +34,7 @@ const About = () => {
   const skills = [
     { category: 'Frontend', items: ['React', 'HTML5', 'CSS3', 'JavaScript', 'TypeScript', 'Responsive Design'] },
     { category: 'Backend', items: ['Node.js', 'Express', '.NET', 'PostgreSQL', 'Database Design', 'API Development'] },
+    { category: 'Blockchain & Web3', items: ['ICP (Internet Computer Protocol)', 'Web3 Development', 'Blockchain Development', 'Smart Contracts'] },
     { category: 'Tools & Platforms', items: ['Git', 'VS Code', 'Postman', 'Figma', 'Adobe XD', 'Docker'] }
   ];
 
