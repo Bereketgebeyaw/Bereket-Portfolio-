@@ -27,11 +27,11 @@ const Home = () => {
             <h1 className="hero-title">
               Hi, I'm <span className="highlight">Berekete Gebeyaw</span>
             </h1>
-            <h2 className="hero-subtitle">Full Stack Software Developer</h2>
+            <h2 className="hero-subtitle">Full Stack & Web3 Developer</h2>
             <p className="hero-description">
               I design and implement functional websites and applications including company sites, 
               e-commerce platforms, job boards, asset management systems, and fashion design websites. 
-              I specialize in React, Node.js, PostgreSQL, .NET and other modern technologies.
+              I specialize in React, Node.js, PostgreSQL, .NET, Web3 technologies, and blockchain development using ICP.
             </p>
             <div className="hero-buttons">
               <Link to="/projects">
