@@ -38,7 +38,7 @@ const Navbar = () => {
             whileHover={{ scale: 1.05 }}
             className="logo-text"
           >
-            Portfolio
+            Berekete Gebeyaw
           </motion.span>
         </Link>
 

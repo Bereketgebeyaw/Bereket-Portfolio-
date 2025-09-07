@@ -1,8 +1,19 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
-const pool = require('../config/database');
+const nodemailer = require('nodemailer');
 
 const router = express.Router();
+
+// Create email transporter
+const createTransporter = () => {
+  return nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'gebeyawbereket8@gmail.com',
+      pass: process.env.EMAIL_PASS
+    }
+  });
+};
 
 // Submit contact form
 router.post('/', [
@@ -23,44 +34,41 @@ router.post('/', [
 
     const { name, email, subject, message } = req.body;
 
-    const result = await pool.query(`
-      INSERT INTO contact_messages (name, email, subject, message)
-      VALUES ($1, $2, $3, $4)
-      RETURNING id, created_at
-    `, [name, email, subject, message]);
+    // Create email transporter
+    const transporter = createTransporter();
 
-    res.status(201).json({
+    // Email content
+    const mailOptions = {
+      from: 'gebeyawbereket8@gmail.com',
+      to: 'gebeyawbereket8@gmail.com', // Your email where you want to receive messages
+      subject: `Portfolio Contact: ${subject}`,
+      html: `
+        <h2>New Contact Form Submission</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Subject:</strong> ${subject}</p>
+        <p><strong>Message:</strong></p>
+        <p>${message.replace(/\n/g, '<br>')}</p>
+        <hr>
+        <p><em>This message was sent from your portfolio contact form.</em></p>
+      `,
+      replyTo: email // So you can reply directly to the person who contacted you
+    };
+
+    // Send email
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({
       success: true,
-      message: 'Message sent successfully!',
-      data: {
-        id: result.rows[0].id,
-        submittedAt: result.rows[0].created_at
-      }
+      message: 'Message sent successfully! I\'ll get back to you soon.'
     });
+
   } catch (error) {
-    console.error('Error submitting contact form:', error);
+    console.error('Error sending email:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to send message',
       message: 'An error occurred while sending your message. Please try again later.'
-    });
-  }
-});
-
-// Get all contact messages (admin)
-router.get('/', async (req, res) => {
-  try {
-    const result = await pool.query('SELECT * FROM contact_messages ORDER BY created_at DESC');
-    res.json({
-      success: true,
-      data: result.rows
-    });
-  } catch (error) {
-    console.error('Error fetching contact messages:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to fetch messages',
-      message: error.message
     });
   }
 });

@@ -223,6 +223,16 @@
   font-weight: 500;
 }
 
+.error-message {
+  background-color: #ef4444;
+  color: white;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  text-align: center;
+  margin-top: 1rem;
+  font-weight: 500;
+}
+
 /* Additional Info */
 .additional-info {
   display: grid;

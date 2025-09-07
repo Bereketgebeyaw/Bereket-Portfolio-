@@ -85,7 +85,18 @@ const About = () => {
                   design websites using React, Node.js, PostgreSQL, .NET and other modern technologies.
                 </p>
                 <div className="profile-actions">
-                  <button className="btn btn-primary">
+                  <button 
+                    className="btn btn-primary"
+                    onClick={() => {
+                      const link = document.createElement('a');
+                      link.href = '/resume/Bereket Gebeyaw resume.pdf';
+                      link.download = 'Bereket Gebeyaw resume.pdf';
+                      link.target = '_blank';
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                    }}
+                  >
                     <Download size={20} />
                     Download CV
                   </button>

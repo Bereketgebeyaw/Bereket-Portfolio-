@@ -1,68 +1,56 @@
 const express = require('express');
-const { body, validationResult } = require('express-validator');
-const pool = require('../config/database');
 
 const router = express.Router();
 
-// Get all skills grouped by category
-router.get('/', async (req, res) => {
-  try {
-    const result = await pool.query(`
-      SELECT category, 
-             array_agg(json_build_object('id', id, 'name', name, 'proficiency', proficiency)) as skills
-      FROM skills 
-      GROUP BY category 
-      ORDER BY category
-    `);
+// Static skills data
+const skills = [
+  {
+    category: "Frontend",
+    skills: [
+      { id: 1, name: "React", proficiency: 5 },
+      { id: 2, name: "HTML5", proficiency: 5 },
+      { id: 3, name: "CSS3", proficiency: 5 },
+      { id: 4, name: "JavaScript", proficiency: 5 },
+      { id: 5, name: "TypeScript", proficiency: 4 },
+      { id: 6, name: "Responsive Design", proficiency: 5 }
+    ]
+  },
+  {
+    category: "Backend",
+    skills: [
+      { id: 7, name: "Node.js", proficiency: 5 },
+      { id: 8, name: "Express", proficiency: 5 },
+      { id: 9, name: ".NET", proficiency: 4 },
+      { id: 10, name: "PostgreSQL", proficiency: 4 },
+      { id: 11, name: "Database Design", proficiency: 4 },
+      { id: 12, name: "API Development", proficiency: 5 }
+    ]
+  },
+  {
+    category: "Tools & Platforms",
+    skills: [
+      { id: 13, name: "Git", proficiency: 5 },
+      { id: 14, name: "VS Code", proficiency: 5 },
+      { id: 15, name: "Postman", proficiency: 4 },
+      { id: 16, name: "Figma", proficiency: 3 },
+      { id: 17, name: "Adobe XD", proficiency: 3 },
+      { id: 18, name: "Docker", proficiency: 3 }
+    ]
+  }
+];
 
+// Get all skills grouped by category
+router.get('/', (req, res) => {
+  try {
     res.json({
       success: true,
-      data: result.rows
+      data: skills
     });
   } catch (error) {
     console.error('Error fetching skills:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to fetch skills',
-      message: error.message
-    });
-  }
-});
-
-// Add new skill
-router.post('/', [
-  body('category').trim().isLength({ min: 1, max: 100 }).withMessage('Category is required'),
-  body('name').trim().isLength({ min: 1, max: 255 }).withMessage('Skill name is required'),
-  body('proficiency').isInt({ min: 1, max: 5 }).withMessage('Proficiency must be between 1 and 5')
-], async (req, res) => {
-  try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        success: false,
-        error: 'Validation failed',
-        details: errors.array()
-      });
-    }
-
-    const { category, name, proficiency } = req.body;
-
-    const result = await pool.query(`
-      INSERT INTO skills (category, name, proficiency)
-      VALUES ($1, $2, $3)
-      RETURNING *
-    `, [category, name, proficiency]);
-
-    res.status(201).json({
-      success: true,
-      message: 'Skill added successfully',
-      data: result.rows[0]
-    });
-  } catch (error) {
-    console.error('Error adding skill:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to add skill',
       message: error.message
     });
   }
