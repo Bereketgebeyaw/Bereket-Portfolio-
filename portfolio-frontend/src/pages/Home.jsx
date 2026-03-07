@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Code, Palette, Database, Globe, Zap } from 'lucide-react';
+import { ArrowRight, Code, Palette, Database, Globe } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import './Home.css';
 
