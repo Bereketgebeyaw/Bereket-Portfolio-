@@ -1,19 +1,8 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
-const nodemailer = require('nodemailer');
+const { sendMail, EMAIL_USER } = require('../utils/mailer');
 
 const router = express.Router();
-
-// Create email transporter
-const createTransporter = () => {
-  return nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'gebeyawbereket8@gmail.com',
-      pass: process.env.EMAIL_PASS
-    }
-  });
-};
 
 // Submit contact form
 router.post('/', [
@@ -44,13 +33,10 @@ router.post('/', [
 
     const { name, email, subject, message } = req.body;
 
-    // Create email transporter
-    const transporter = createTransporter();
-
     // Email content
     const mailOptions = {
-      from: 'gebeyawbereket8@gmail.com',
-      to: 'gebeyawbereket8@gmail.com', // Your email where you want to receive messages
+      from: EMAIL_USER,
+      to: EMAIL_USER, // receive messages at the configured email
       subject: `Portfolio Contact: ${subject}`,
       html: `
         <h2>New Contact Form Submission</h2>
@@ -65,8 +51,8 @@ router.post('/', [
       replyTo: email // So you can reply directly to the person who contacted you
     };
 
-    // Send email
-    await transporter.sendMail(mailOptions);
+    // Send email using shared mailer
+    await sendMail(mailOptions);
 
     res.status(200).json({
       success: true,

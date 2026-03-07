@@ -65,3 +65,11 @@ server.on('error', (err) => {
 });
 
 module.exports = app;
+
+// Verify mailer connectivity at startup (non-blocking)
+try {
+  const { verifyTransporter } = require('./utils/mailer');
+  verifyTransporter();
+} catch (err) {
+  console.warn('Mailer verify skipped:', err && err.message ? err.message : err);
+}
