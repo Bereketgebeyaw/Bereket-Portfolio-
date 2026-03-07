@@ -23,6 +23,16 @@ router.post('/', [
   body('message').trim().isLength({ min: 1, max: 2000 }).withMessage('Message is required')
 ], async (req, res) => {
   try {
+    // Log incoming request for debugging (will appear in server logs)
+    console.log('Incoming contact request:', {
+      ip: req.ip,
+      body: req.body && {
+        name: req.body.name,
+        email: req.body.email,
+        subject: req.body.subject
+        // intentionally not logging full message to avoid large logs
+      }
+    });
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -64,11 +74,14 @@ router.post('/', [
     });
 
   } catch (error) {
-    console.error('Error sending email:', error);
+    // Log full stack for debugging
+    console.error('Error sending email:', error && error.stack ? error.stack : error);
+    // In development, return the error message to help debugging
+    const devMessage = process.env.NODE_ENV === 'development' ? (error && error.message ? error.message : String(error)) : 'An error occurred while sending your message. Please try again later.';
     res.status(500).json({
       success: false,
       error: 'Failed to send message',
-      message: 'An error occurred while sending your message. Please try again later.'
+      message: devMessage
     });
   }
 });
