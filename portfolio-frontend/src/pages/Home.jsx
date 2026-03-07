@@ -18,6 +18,10 @@ const Home = () => {
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-content">
+          <div className="photo-frame-wrapper">
+            <img src="/photo.jpeg" alt="Bereket Gebeyaw" className="hero-photo" />
+          </div>
+
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -56,27 +60,7 @@ const Home = () => {
             </div>
           </motion.div>
           
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="hero-visual"
-          >
-            <div className="hero-image">
-              <div className="floating-card">
-                <Code size={48} />
-                <span>Full Stack</span>
-              </div>
-              <div className="floating-card">
-                <Zap size={48} />
-                <span>Web3</span>
-              </div>
-              <div className="floating-card">
-                <Database size={48} />
-                <span>Web Apps</span>
-              </div>
-            </div>
-          </motion.div>
+          {/* hero-visual removed: simplified layout without floating cards */}
         </div>
       </section>
 

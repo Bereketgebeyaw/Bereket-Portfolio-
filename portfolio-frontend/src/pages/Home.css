@@ -13,9 +13,10 @@
 
 .hero-content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
+  /* left column for avatar, right column for text/visual */
+  grid-template-columns: 220px 1fr;
+  gap: 2.5rem;
+  align-items: start; /* top-align avatar with text */
 }
 
 .hero-text {
@@ -66,65 +67,39 @@
   flex-wrap: wrap;
 }
 
-.hero-visual {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+/* visual column removed */
 
-.hero-image {
+
+.photo-frame-wrapper {
+  /* place avatar in left column (no absolute positioning) */
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 18px 36px rgba(0,0,0,0.12), 0 6px 16px rgba(0,0,0,0.06);
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0.03), transparent);
+  border: 6px solid rgba(255,255,255,0.06);
+  align-self: start; /* top-align within the grid */
+  justify-self: start; /* keep it to the left */
+  margin: 8px 0 0 8px; /* small offset from top/left */
   position: relative;
-  width: 400px;
-  height: 400px;
 }
 
-.floating-card {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 120px;
-  height: 120px;
-  background: white;
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-lg);
-  color: var(--primary-color);
-  animation: float 6s ease-in-out infinite;
+.photo-frame-wrapper .hero-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
+  transition: transform 350ms cubic-bezier(.2,.8,.2,1), box-shadow 350ms ease;
 }
 
-.floating-card:nth-child(1) {
-  top: 20px;
-  left: 20px;
-  animation-delay: 0s;
+.photo-frame-wrapper:hover .hero-photo {
+  transform: scale(1.03) rotate(-0.5deg);
+  box-shadow: 0 18px 36px rgba(0,0,0,0.12);
 }
 
-.floating-card:nth-child(2) {
-  top: 150px;
-  right: 20px;
-  animation-delay: 2s;
-}
-
-.floating-card:nth-child(3) {
-  bottom: 20px;
-  left: 150px;
-  animation-delay: 4s;
-}
-
-.floating-card span {
-  margin-top: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
+/* floating cards removed from layout */
 
 /* Skills Section */
 .skills {
@@ -235,6 +210,17 @@
     gap: 2rem;
     text-align: center;
   }
+
+  /* On smaller screens, place the photo above the text and center it */
+  .photo-frame-wrapper {
+    position: relative;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 1rem;
+    width: 180px;
+    height: 180px;
+  }
   
   .hero-title {
     font-size: 2.5rem;
@@ -248,31 +234,7 @@
     justify-content: center;
   }
   
-  .hero-image {
-    width: 350px;
-    height: 350px;
-  }
-  
-  .floating-card {
-    width: 90px;
-    height: 90px;
-  }
-  
-  .floating-card:nth-child(1) {
-    top: 20px;
-    left: 20px;
-  }
-  
-  .floating-card:nth-child(2) {
-    top: 20px;
-    right: 20px;
-  }
-  
-  .floating-card:nth-child(3) {
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+  /* visual elements removed for small screens */
   
   .skills-grid {
     grid-template-columns: 1fr;
@@ -306,19 +268,7 @@
     align-items: center;
   }
   
-  .hero-image {
-    width: 250px;
-    height: 250px;
-  }
-  
-  .floating-card {
-    width: 80px;
-    height: 80px;
-  }
-  
-  .floating-card span {
-    font-size: 0.75rem;
-  }
+  /* visual elements removed for very small screens */
   
   .skill-card {
     padding: 1.5rem;
