@@ -25,18 +25,21 @@ async function verifyTransporter() {
   }
 }
 
+// Resend only allows sending FROM verified domains. Gmail cannot be verified.
+// Always use their default sender so it works without domain setup.
+const RESEND_FROM = 'Portfolio <onboarding@resend.dev>';
+
 async function sendMail(options) {
   // options should include { from, to, subject, html, replyTo }
   if (!resend) {
     throw new Error('RESEND_API_KEY is not configured on the server');
   }
 
-  const from = options.from || EMAIL_FROM;
   const to = options.to || EMAIL_TO;
   const replyTo = options.replyTo || options.reply_to;
 
   const { data, error } = await resend.emails.send({
-    from,
+    from: RESEND_FROM,
     to,
     subject: options.subject,
     html: options.html,
