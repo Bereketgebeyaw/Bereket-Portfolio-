@@ -12,6 +12,7 @@ const Contact = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+  const [statusMessage, setStatusMessage] = useState('');
 
   const handleChange = (e) => {
     setFormData({
@@ -23,31 +24,54 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setStatusMessage('');
     
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL || 'https://bereket-portfolio.onrender.com'}/api/contact`, {
+      const apiBaseUrl = (process.env.REACT_APP_API_URL || 'https://bereket-portfolio.onrender.com').replace(/\/$/, '');
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 20000);
+
+      const response = await fetch(`${apiBaseUrl}/api/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
-      });
+        signal: controller.signal
+      }).finally(() => clearTimeout(timeoutId));
 
-      const result = await response.json();
+      const rawText = await response.text();
+      let result = null;
+      try {
+        result = rawText ? JSON.parse(rawText) : null;
+      } catch {
+        result = null;
+      }
 
-      if (result.success) {
+      if (response.ok && result && result.success) {
         setSubmitStatus('success');
+        setStatusMessage(result.message || 'Message sent successfully.');
         setFormData({ name: '', email: '', subject: '', message: '' });
         
         // Reset status after 3 seconds
         setTimeout(() => setSubmitStatus(null), 3000);
       } else {
         setSubmitStatus('error');
+        const serverMsg =
+          (result && (result.message || result.error)) ||
+          (rawText ? rawText.slice(0, 200) : '') ||
+          `Request failed (HTTP ${response.status})`;
+        setStatusMessage(serverMsg);
         setTimeout(() => setSubmitStatus(null), 3000);
       }
     } catch (error) {
       console.error('Error sending message:', error);
       setSubmitStatus('error');
+      setStatusMessage(
+        error && error.name === 'AbortError'
+          ? 'Request timed out (server may be sleeping). Please try again.'
+          : 'Network error sending your message. Please try again.'
+      );
       setTimeout(() => setSubmitStatus(null), 3000);
     } finally {
       setIsSubmitting(false);
@@ -254,7 +278,7 @@ const Contact = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                 >
-                  Thank you! Your message has been sent successfully.
+                  {statusMessage || 'Thank you! Your message has been sent successfully.'}
                 </motion.div>
               )}
 
@@ -265,7 +289,7 @@ const Contact = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                 >
-                  Sorry, there was an error sending your message. Please try again.
+                  {statusMessage || 'Sorry, there was an error sending your message. Please try again.'}
                 </motion.div>
               )}
             </form>

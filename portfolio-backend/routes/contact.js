@@ -1,8 +1,21 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
-const { sendMail, EMAIL_USER } = require('../utils/mailer');
+const { sendMail, EMAIL_FROM, EMAIL_TO } = require('../utils/mailer');
 
 const router = express.Router();
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, (ch) => {
+    switch (ch) {
+      case '&': return '&amp;';
+      case '<': return '&lt;';
+      case '>': return '&gt;';
+      case '"': return '&quot;';
+      case "'": return '&#39;';
+      default: return ch;
+    }
+  });
+}
 
 // Submit contact form
 router.post('/', [
@@ -32,19 +45,23 @@ router.post('/', [
     }
 
     const { name, email, subject, message } = req.body;
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safeSubject = escapeHtml(subject);
+    const safeMessageHtml = escapeHtml(message).replace(/\n/g, '<br>');
 
     // Email content
     const mailOptions = {
-      from: EMAIL_USER,
-      to: EMAIL_USER, // receive messages at the configured email
-      subject: `Portfolio Contact: ${subject}`,
+      from: EMAIL_FROM,
+      to: EMAIL_TO, // receive messages at the configured email
+      subject: `Portfolio Contact: ${safeSubject}`,
       html: `
         <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
+        <p><strong>Name:</strong> ${safeName}</p>
+        <p><strong>Email:</strong> ${safeEmail}</p>
+        <p><strong>Subject:</strong> ${safeSubject}</p>
         <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, '<br>')}</p>
+        <p>${safeMessageHtml}</p>
         <hr>
         <p><em>This message was sent from your portfolio contact form.</em></p>
       `,

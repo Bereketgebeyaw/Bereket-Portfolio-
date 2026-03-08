@@ -29,7 +29,8 @@ app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
     message: 'Portfolio API is running',
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    emailConfigured: Boolean(process.env.EMAIL_PASS)
   });
 });
 
