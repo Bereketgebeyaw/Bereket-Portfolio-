@@ -100,12 +100,7 @@ const Contact = () => {
       url: 'https://github.com/Bereketgebeyaw',
       color: '#333'
     },
-    {
-      icon: <Globe size={24} />,
-      name: 'Website',
-      url: 'https://example.com',
-      color: '#007acc'
-    }
+    
   ];
 
   return (
