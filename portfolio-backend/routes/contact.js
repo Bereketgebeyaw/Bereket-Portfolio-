@@ -79,12 +79,14 @@ router.post('/', [
   } catch (error) {
     // Log full stack for debugging
     console.error('Error sending email:', error && error.stack ? error.stack : error);
-    // In development, return the error message to help debugging
-    const devMessage = process.env.NODE_ENV === 'development' ? (error && error.message ? error.message : String(error)) : 'An error occurred while sending your message. Please try again later.';
+    // Always return a short, safe error message so the frontend can show what went wrong
+    const safeMessage = error && error.message
+      ? String(error.message).slice(0, 300)
+      : 'An error occurred while sending your message. Please try again later.';
     res.status(500).json({
       success: false,
       error: 'Failed to send message',
-      message: devMessage
+      message: safeMessage
     });
   }
 });
