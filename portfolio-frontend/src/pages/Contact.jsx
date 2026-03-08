@@ -28,17 +28,14 @@ const Contact = () => {
     
     try {
       const apiBaseUrl = (process.env.REACT_APP_API_URL || 'https://bereket-portfolio.onrender.com').replace(/\/$/, '');
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 20000);
 
       const response = await fetch(`${apiBaseUrl}/api/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
-        signal: controller.signal
-      }).finally(() => clearTimeout(timeoutId));
+        body: JSON.stringify(formData)
+      });
 
       const rawText = await response.text();
       let result = null;
@@ -67,11 +64,7 @@ const Contact = () => {
     } catch (error) {
       console.error('Error sending message:', error);
       setSubmitStatus('error');
-      setStatusMessage(
-        error && error.name === 'AbortError'
-          ? 'Request timed out (server may be sleeping). Please try again.'
-          : 'Network error sending your message. Please try again.'
-      );
+      setStatusMessage('Network error sending your message. Please try again.');
       setTimeout(() => setSubmitStatus(null), 3000);
     } finally {
       setIsSubmitting(false);
