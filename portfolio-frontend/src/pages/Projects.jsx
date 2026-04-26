@@ -9,6 +9,22 @@ const Projects = () => {
 
   const projects = [
     {
+      id: 8,
+      title: 'Public Community Cafe Platform — to feed the people who can’t afford',
+      description: 'A transparent, blockchain-powered community café funding platform to feed the people who can’t afford food, where donors can fund meals and track impact with on-chain accountability.',
+      image: '/api/placeholder/400/300',
+      category: 'fullstack',
+      technologies: ['React', 'Solidity', 'Hardhat' , 'Ethers.js', 'Web3'],
+      github: null,
+      live: 'https://public-cafe.vercel.app/',
+      features: [
+        'Wallet connect & donor funding flow',
+        'On-chain donation tracking',
+        'Transparent fund usage rules',
+        'Impact dashboard (meals served, expenses, remaining funds)'
+      ]
+    },
+    {
       id: 1,
       title: 'Backmarket E-Commerce Platform',
       description: 'A full-stack e-commerce solution with React frontend, Node.js backend, and PostgreSQL database.',
@@ -235,15 +251,17 @@ const Projects = () => {
                     </div>
                     
                     <div className="modal-links">
-                      <a 
-                        href={selectedProject.github} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="btn btn-secondary"
-                      >
-                        <Github size={20} />
-                        View Code
-                      </a>
+                      {selectedProject.github && (
+                        <a 
+                          href={selectedProject.github} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="btn btn-secondary"
+                        >
+                          <Github size={20} />
+                          View Code
+                        </a>
+                      )}
                       {selectedProject.live && (
                         <a 
                           href={selectedProject.live} 
